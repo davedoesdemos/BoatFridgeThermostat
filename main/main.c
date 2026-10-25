@@ -6,6 +6,8 @@
 #include <freertos/task.h>
 #include "lcd_1602a.h"
 #include "i2c.h"
+#include "ds18b20.h"
+#include "tempprobe.h"
 
 static const char *TAG = "LCD_1602A";
 
@@ -28,25 +30,8 @@ void app_main(void)
     lcd_init_sequence(i2c_settings.lcd_dev_handle);
     ESP_LOGI(TAG, "LCD sequence completed.");
     // 4. Print text out to the physical display
-
+    tempprobe_init();
     update_target_temp(2.3);
-    update_current_temp(14.5);
-    update_current_temp(-13.4);
-    update_current_temp(-3.3);
-    update_current_temp(-3.2);
-    update_current_temp(-3.1);
-    update_current_temp(-3.0);
-    update_current_temp(-2.9);
-    update_current_temp(-2.8);
-    update_current_temp(-2.7);
-    update_current_temp(-2.6);
-    update_current_temp(-2.5);
-    update_current_temp(-2.4);
-    update_current_temp(-2.3);
-    update_current_temp(-2.2);
-    update_current_temp(-2.1);
-    //lcd_set_cursor(i2c_settings.lcd_dev_handle, 0, 0); // Column 0, Row 0 (Line 1)
-    //lcd_print_str(i2c_settings.lcd_dev_handle, "Hello Jude");
-    //lcd_set_cursor(i2c_settings.lcd_dev_handle, 0, 1); // Column 0, Row 1 (Line 2)
-    //lcd_print_str(i2c_settings.lcd_dev_handle, "Dave did this");
+    // replace this with a task and queue system
+    measure_current_temp();
 }
