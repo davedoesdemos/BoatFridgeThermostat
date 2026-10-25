@@ -1,2 +1,13 @@
-idf_component_register(SRCS "main.c"
-                    INCLUDE_DIRS ".")
+idf_component_register(
+    SRCS
+        "main.c"
+        "i2c/i2c.c"
+        "lcd_1602a/lcd_1602a.c"
+    INCLUDE_DIRS
+        "."
+        "i2c"
+        "lcd_1602a"
+    REQUIRES
+        esp_driver_i2c
+        esp_lcd
+    )
