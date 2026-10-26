@@ -40,6 +40,16 @@ void update_current_temp(float current_temp){
     lcd_print_str(i2c_settings.lcd_dev_handle, buffer);
 }
 
+void label_cooling(int call_for_cooling){
+    lcd_set_cursor(i2c_settings.lcd_dev_handle, 10, 0);
+    lcd_set_cursor(i2c_settings.lcd_dev_handle, 10, 0);
+    if (call_for_cooling == 1) {
+        lcd_print_str(i2c_settings.lcd_dev_handle, "*");
+    } else {
+        lcd_print_str(i2c_settings.lcd_dev_handle, " ");
+    }
+}
+
 // Low-level function to transmit a byte to the PCF8574 expander
 void lcd_send_expander(i2c_master_dev_handle_t dev_handle, uint8_t data) {
     uint8_t buffer = data | LCD_BACKLIGHT;

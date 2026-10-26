@@ -5,10 +5,16 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/queue.h"
 
+#define MAX_TARGET_TEMP 30.0f
+#define MIN_TARGET_TEMP 0.0f
+#define TEMP_BUTTON_INCREMENT 0.1f
+#define STARTING_TARGET_TEMP 22.0f
+
 // System State
 typedef struct {
     float current_temp;
     float target_temp;
+    int call_for_cooling; // 0 = off, 1 = on
 } system_state_t;
 
 // Unique identifiers for each packet type
