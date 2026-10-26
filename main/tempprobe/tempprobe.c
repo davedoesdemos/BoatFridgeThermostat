@@ -11,8 +11,6 @@
 // Logging
 static const char *TAG = "BFT: Temp Probe";
 
-#define ONEWIRE_BUS_GPIO    20   // Assigned data pin
-
 static ds18b20_device_handle_t ds18b20_handle = NULL;
 
 void tempprobe_init(void)

@@ -55,6 +55,12 @@ void queue_reader()
                                 update_target_temp(system_state.target_temp);
                             }
                             break;
+                        case 3:
+                            backlight_timer(i2c_settings.lcd_dev_handle);
+                            break;
+                        case 4:
+                            backlight_toggle(i2c_settings.lcd_dev_handle);
+                            break;
                     }
                     break;
     // -----Default-----

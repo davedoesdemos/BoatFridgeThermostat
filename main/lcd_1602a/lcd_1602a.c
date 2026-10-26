@@ -12,37 +12,34 @@ static const char *TAG = "BFT: LCD 1602A";
 #define LCD_ENABLE                  0x04
 #define LCD_REGISTER_SELECT         0x01
 
+static uint8_t lcd_backlight = LCD_BACKLIGHT;
+
 void label_target_temp(){
-    lcd_set_cursor(i2c_settings.lcd_dev_handle, 0, 0);
-    lcd_set_cursor(i2c_settings.lcd_dev_handle, 0, 0);
-    lcd_print_str(i2c_settings.lcd_dev_handle, "Target  :");
+    lcd_set_cursor(i2c_settings.lcd_dev_handle, 0, 1);
+    lcd_print_str(i2c_settings.lcd_dev_handle, "Target :");
 }
 
 void update_target_temp(float target_temp){
     char buffer[16];
     snprintf(buffer, sizeof(buffer), "% 5.1fC", target_temp);
-    lcd_set_cursor(i2c_settings.lcd_dev_handle, 10, 0);
-    lcd_set_cursor(i2c_settings.lcd_dev_handle, 10, 0);
+    lcd_set_cursor(i2c_settings.lcd_dev_handle, 8, 1);
     lcd_print_str(i2c_settings.lcd_dev_handle, buffer);
 }
 
 void label_current_temp(){
-    lcd_set_cursor(i2c_settings.lcd_dev_handle, 0, 1);
-    lcd_set_cursor(i2c_settings.lcd_dev_handle, 0, 1);
-    lcd_print_str(i2c_settings.lcd_dev_handle, "Current :");
+    lcd_set_cursor(i2c_settings.lcd_dev_handle, 0, 0);
+    lcd_print_str(i2c_settings.lcd_dev_handle, "Current:");
 }
 
 void update_current_temp(float current_temp){
     char buffer[16];
     snprintf(buffer, sizeof(buffer), "% 5.1fC", current_temp);
-    lcd_set_cursor(i2c_settings.lcd_dev_handle, 10, 1);
-    lcd_set_cursor(i2c_settings.lcd_dev_handle, 10, 1);
+    lcd_set_cursor(i2c_settings.lcd_dev_handle, 8, 0);
     lcd_print_str(i2c_settings.lcd_dev_handle, buffer);
 }
 
 void label_cooling(int call_for_cooling){
-    lcd_set_cursor(i2c_settings.lcd_dev_handle, 10, 0);
-    lcd_set_cursor(i2c_settings.lcd_dev_handle, 10, 0);
+    lcd_set_cursor(i2c_settings.lcd_dev_handle, 15, 0);
     if (call_for_cooling == 1) {
         lcd_print_str(i2c_settings.lcd_dev_handle, "*");
     } else {
@@ -52,8 +49,25 @@ void label_cooling(int call_for_cooling){
 
 // Low-level function to transmit a byte to the PCF8574 expander
 void lcd_send_expander(i2c_master_dev_handle_t dev_handle, uint8_t data) {
-    uint8_t buffer = data | LCD_BACKLIGHT;
+    uint8_t buffer = data | lcd_backlight;
     i2c_master_transmit(dev_handle, &buffer, 1, 1000);
+}
+
+void backlight_toggle(i2c_master_dev_handle_t dev_handle) {
+    if (lcd_backlight == LCD_BACKLIGHT) {
+        lcd_backlight = 0;
+    } else {
+        lcd_backlight = LCD_BACKLIGHT;
+    }
+    lcd_send_expander(dev_handle, 0);
+}
+
+void backlight_timer(i2c_master_dev_handle_t dev_handle) {
+    lcd_backlight = LCD_BACKLIGHT;
+    lcd_send_expander(dev_handle, 0);
+    vTaskDelay(pdMS_TO_TICKS(5000));
+    lcd_backlight = 0;
+    lcd_send_expander(dev_handle, 0);
 }
 
 // Pulses the Enable pin to latch the data into the LCD
@@ -61,7 +75,7 @@ void lcd_pulse_enable(i2c_master_dev_handle_t dev_handle, uint8_t data) {
     lcd_send_expander(dev_handle, data | LCD_ENABLE);
     vTaskDelay(pdMS_TO_TICKS(1));
     lcd_send_expander(dev_handle, data & ~LCD_ENABLE);
-    vTaskDelay(pdMS_TO_TICKS(1));
+    vTaskDelay(pdMS_TO_TICKS(50));
 }
 
 // Sends a byte split into two 4-bit nibbles
@@ -110,7 +124,6 @@ void lcd_init_sequence(i2c_master_dev_handle_t dev_handle) {
 // Loops through a string to print it out
 void lcd_print_str(i2c_master_dev_handle_t dev_handle, const char *str) {
     while (*str) {
-    vTaskDelay(pdMS_TO_TICKS(100));
         lcd_send_data(dev_handle, (uint8_t)*str++);
     }
 }

@@ -9,6 +9,8 @@
 // Public Function Prototypes
 void label_current_temp();
 void label_target_temp();
+void backlight_toggle(i2c_master_dev_handle_t dev_handle);
+void backlight_timer(i2c_master_dev_handle_t dev_handle);
 void update_current_temp(float current_temp);
 void update_target_temp(float target_temp);
 void label_cooling(int call_for_cooling);

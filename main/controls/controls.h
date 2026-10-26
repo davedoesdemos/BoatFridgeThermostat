@@ -5,6 +5,7 @@
 
 #define BUTTON_PLUS_GPIO_NUM 37
 #define BUTTON_MINUS_GPIO_NUM 35
+#define BUTTON_LIGHT_GPIO_NUM 36
 
 void buttons_init();
 
