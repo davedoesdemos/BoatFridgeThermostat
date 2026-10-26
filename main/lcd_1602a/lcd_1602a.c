@@ -4,6 +4,9 @@
 #include <freertos/task.h>
 #include "lcd_1602a.h"
 
+// Logging
+static const char *TAG = "BFT: LCD 1602A";
+
 // PCF8574 Pin Mapping Constants
 #define LCD_BACKLIGHT               0x08
 #define LCD_ENABLE                  0x04

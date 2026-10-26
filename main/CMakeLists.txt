@@ -4,11 +4,13 @@ idf_component_register(
         "i2c/i2c.c"
         "lcd_1602a/lcd_1602a.c"
         "tempprobe/tempprobe.c"
+        "state/state.c"
     INCLUDE_DIRS
         "."
         "i2c"
         "lcd_1602a"
         "tempprobe"
+        "state"
     REQUIRES
         esp_driver_i2c
         esp_lcd

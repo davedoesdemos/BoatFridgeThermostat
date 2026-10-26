@@ -4,6 +4,9 @@
 #include <driver/i2c_master.h>
 #include "i2c.h"
 
+// Logging
+static const char *TAG = "BFT: I2C";
+
 extern i2c_config i2c_settings = {NULL, NULL}; 
 
 // Function 1: Initializes the overall physical I2C Bus

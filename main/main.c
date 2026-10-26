@@ -5,6 +5,7 @@
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 #include "lcd_1602a.h"
+#include "state.h"
 #include "i2c.h"
 #include "ds18b20.h"
 #include "tempprobe.h"
@@ -29,9 +30,26 @@ void app_main(void)
         // 3. Initialize the actual screen hardware using the handle
     lcd_init_sequence(i2c_settings.lcd_dev_handle);
     ESP_LOGI(TAG, "LCD sequence completed.");
-    // 4. Print text out to the physical display
+
     tempprobe_init();
+    queue_init();
+    
     update_target_temp(2.3);
-    // replace this with a task and queue system
-    measure_current_temp();
+
+    xTaskCreate(
+        temperature_sender,        // Task function
+        "temperature_sender",      // Task name string
+        4096,               // Stack size in bytes
+        NULL,               // Parameters passed to the task
+        1,                  // Task priority
+        NULL               // Task handle (not needed here)
+    );
+        xTaskCreate(
+        queue_reader,        // Task function
+        "Queue Reader",      // Task name string
+        4096,               // Stack size in bytes
+        NULL,               // Parameters passed to the task
+        1,                  // Task priority
+        NULL               // Task handle (not needed here)
+    );
 }
