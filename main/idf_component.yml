@@ -16,3 +16,4 @@ dependencies:
   #   public: true
   espressif/ds18b20: ^0.4.0
   espressif/onewire_bus: ^1.1.2
+  espressif/button: ^4.2.2

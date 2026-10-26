@@ -9,6 +9,7 @@
 #include "i2c.h"
 #include "ds18b20.h"
 #include "tempprobe.h"
+#include "controls.h"
 
 static const char *TAG = "LCD_1602A";
 
@@ -33,8 +34,9 @@ void app_main(void)
 
     tempprobe_init();
     queue_init();
-    
-    update_target_temp(2.3);
+    buttons_init();
+
+    update_target_temp(system_state.target_temp);
 
     xTaskCreate(
         temperature_sender,        // Task function

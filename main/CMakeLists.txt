@@ -5,15 +5,18 @@ idf_component_register(
         "lcd_1602a/lcd_1602a.c"
         "tempprobe/tempprobe.c"
         "state/state.c"
+        "controls/controls.c"
     INCLUDE_DIRS
         "."
         "i2c"
         "lcd_1602a"
         "tempprobe"
         "state"
+        "controls"
     REQUIRES
         esp_driver_i2c
         esp_lcd
         ds18b20
         onewire_bus
+        button
     )

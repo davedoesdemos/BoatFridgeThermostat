@@ -5,6 +5,12 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/queue.h"
 
+// System State
+typedef struct {
+    float current_temp;
+    float target_temp;
+} system_state_t;
+
 // Unique identifiers for each packet type
 typedef enum {
 // -----Sensors-----
@@ -22,6 +28,7 @@ typedef struct {
     } value;
 } telemetry_packet_t;
 
+extern system_state_t system_state;
 extern QueueHandle_t msg_queue;
 
 void queue_init();
