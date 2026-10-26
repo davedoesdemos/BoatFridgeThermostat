@@ -12,7 +12,7 @@ static const char *TAG = "BFT: LCD 1602A";
 #define LCD_ENABLE                  0x04
 #define LCD_REGISTER_SELECT         0x01
 
-static uint8_t lcd_backlight = LCD_BACKLIGHT;
+static uint8_t lcd_backlight = 0;
 
 void label_target_temp(){
     lcd_set_cursor(i2c_settings.lcd_dev_handle, 0, 1);

@@ -19,9 +19,9 @@ void queue_init() {
 
 void cooling_check() {
     //ESP_LOGI(TAG, "Cooling Check: Current Temp = %.4f, Target Temp = %.4f", system_state.current_temp, system_state.target_temp);
-    if (system_state.current_temp >= system_state.target_temp) {
+    if (system_state.current_temp >= system_state.target_temp + TEMP_HYSTERESIS) {
         system_state.call_for_cooling = 1;
-    } else {
+    } else if (system_state.current_temp <= system_state.target_temp - TEMP_HYSTERESIS) {
         system_state.call_for_cooling = 0;
     }
     label_cooling(system_state.call_for_cooling);

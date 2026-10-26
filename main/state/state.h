@@ -9,6 +9,7 @@
 #define MIN_TARGET_TEMP 0.0f
 #define TEMP_BUTTON_INCREMENT 0.1f
 #define STARTING_TARGET_TEMP 4.0f
+#define TEMP_HYSTERESIS 2.0f
 
 // System State
 typedef struct {
