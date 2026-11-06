@@ -71,6 +71,7 @@ void temperature_sender() {
         if (ds18b20_get_temperature(ds18b20_handle, &temperature) == ESP_OK) {
             packet.value.value_float = temperature;
             xQueueSend(msg_queue, &packet, portMAX_DELAY);
+            //ESP_LOGI(TAG, "Temperature Reading: %.4f", temperature);
         } else {
             ESP_LOGE(TAG, "Failed to read data. Checking CRC...");
         }

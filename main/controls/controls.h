@@ -3,9 +3,9 @@
 
 #include "button_gpio.h"
 
-#define BUTTON_PLUS_GPIO_NUM 37
-#define BUTTON_MINUS_GPIO_NUM 35
-#define BUTTON_LIGHT_GPIO_NUM 36
+#define BUTTON_PLUS_GPIO_NUM 36
+#define BUTTON_MINUS_GPIO_NUM 37
+#define BUTTON_LIGHT_GPIO_NUM 35
 
 void buttons_init();
 

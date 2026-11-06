@@ -3,6 +3,7 @@
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 #include "lcd_1602a.h"
+#include <esp_log.h>
 
 // Logging
 static const char *TAG = "BFT: LCD 1602A";
@@ -36,6 +37,7 @@ void update_current_temp(float current_temp){
     snprintf(buffer, sizeof(buffer), "% 5.1fC", current_temp);
     lcd_set_cursor(i2c_settings.lcd_dev_handle, 8, 0);
     lcd_print_str(i2c_settings.lcd_dev_handle, buffer);
+    //ESP_LOGI(TAG, "Current Temp Updated: %.4f", current_temp);
 }
 
 void label_cooling(int call_for_cooling){

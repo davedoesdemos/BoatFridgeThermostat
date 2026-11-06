@@ -46,12 +46,14 @@ void queue_reader()
                         case 1:
                             if (system_state.target_temp < MAX_TARGET_TEMP) {
                                 system_state.target_temp += TEMP_BUTTON_INCREMENT;
+                                //ESP_LOGI(TAG, "Target Temp Increased to %.4f", system_state.target_temp);
                                 update_target_temp(system_state.target_temp);
                             }
                             break;
                         case 2:
                             if (system_state.target_temp > MIN_TARGET_TEMP) {
                                 system_state.target_temp -= TEMP_BUTTON_INCREMENT;
+                                //ESP_LOGI(TAG, "Target Temp Decreased to %.4f", system_state.target_temp);
                                 update_target_temp(system_state.target_temp);
                             }
                             break;

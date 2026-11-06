@@ -2,8 +2,8 @@
 #define I2C_H
 
 // Master I2C Settings
-#define I2C_MASTER_SDA_IO           8       // Hardware Pin SDA
-#define I2C_MASTER_SCL_IO           9       // Hardware Pin SCL
+#define I2C_MASTER_SDA_IO           9       // Hardware Pin SDA
+#define I2C_MASTER_SCL_IO           7       // Hardware Pin SCL
 #define I2C_MASTER_PORT             I2C_NUM_0
 
 #include <driver/i2c_master.h>
