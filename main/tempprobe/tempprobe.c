@@ -67,7 +67,7 @@ void temperature_sender() {
         ESP_ERROR_CHECK(ds18b20_trigger_temperature_conversion(ds18b20_handle));
         vTaskDelay(pdMS_TO_TICKS(800));
 
-        // Read out the calculated temperature from the scratchpad
+        // Read out the calculated temperature
         if (ds18b20_get_temperature(ds18b20_handle, &temperature) == ESP_OK) {
             packet.value.value_float = temperature;
             xQueueSend(msg_queue, &packet, portMAX_DELAY);

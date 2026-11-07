@@ -3,6 +3,7 @@
 #include "controls.h"
 #include "iot_button.h"
 #include "state.h"
+#include "driver/gpio.h"
 
 // Logging
 static const char *TAG = "BFT: Controls";
@@ -34,6 +35,7 @@ static void button_light_click_cb(void *arg, void *usr_data)
     packet.value.value_int = 3;
     xQueueSend(msg_queue, &packet, portMAX_DELAY);
 }
+
 static void button_light_long_click_cb(void *arg, void *usr_data)
 {
     telemetry_packet_t packet;
@@ -42,6 +44,24 @@ static void button_light_long_click_cb(void *arg, void *usr_data)
     xQueueSend(msg_queue, &packet, portMAX_DELAY);
 }
 
+// Set relay for cooling
+void call_cooling(int call_for_cooling){
+    gpio_set_level(RELAY_GPIO_NUM, call_for_cooling);
+}
+
+// Initialise the GPIO for the relay
+void relay_init() {
+    gpio_config_t io_conf = {
+        .pin_bit_mask = (1ULL << RELAY_GPIO_NUM), // Select GPIO 7
+        .mode = GPIO_MODE_OUTPUT,             // Set as output mode
+        .pull_up_en = GPIO_PULLUP_DISABLE,    // Disable pull-up
+        .pull_down_en = GPIO_PULLDOWN_DISABLE,// Disable pull-down
+        .intr_type = GPIO_INTR_DISABLE        // Disable interrupt
+    };
+    gpio_config(&io_conf);
+}
+
+// Initialise the buttons and register callback functions
 void buttons_init()
 {
     // create gpio button

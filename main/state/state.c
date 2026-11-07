@@ -1,5 +1,6 @@
 #include "state.h"
 #include "lcd_1602a.h"
+#include "controls.h"
 
 // Logging
 static const char *TAG = "BFT: State";
@@ -25,6 +26,7 @@ void cooling_check() {
         system_state.call_for_cooling = 0;
     }
     label_cooling(system_state.call_for_cooling);
+    call_cooling(system_state.call_for_cooling);
 }
 
 void queue_reader() 

@@ -15,25 +15,26 @@ static const char *TAG = "LCD_1602A";
 
 void app_main(void)
 {
-    // 1. Initialize Bus
+    // Initialize Bus
     if (init_i2c_bus(&i2c_settings.global_bus_handle) != ESP_OK) {
         ESP_LOGE(TAG, "Failed to initialize I2C Master Bus!");
         return;
     }
     ESP_LOGI(TAG, "I2C Master Bus initialized successfully.");
 
-    // 2. Initialize Device
+    // Initialize LCD
     if (init_i2c_device(LCD_DEVICE_ADDRESS ,i2c_settings.global_bus_handle, &i2c_settings.lcd_dev_handle) != ESP_OK) {
         ESP_LOGE(TAG, "Failed to attach I2C peripheral device!");
         return;
     }
     ESP_LOGI(TAG, "I2C Device (0x%02X) registered.", LCD_DEVICE_ADDRESS);
-        // 3. Initialize the actual screen hardware using the handle
+        // Initialize the actual screen hardware using the handle
     lcd_init_sequence(i2c_settings.lcd_dev_handle);
     ESP_LOGI(TAG, "LCD sequence completed.");
 
     tempprobe_init();
     queue_init();
+    relay_init();
     buttons_init();
 
     update_target_temp(system_state.target_temp);

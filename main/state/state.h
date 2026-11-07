@@ -5,11 +5,22 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/queue.h"
 
+#define DEBUG
+
+#ifdef DEBUG
+#define MAX_TARGET_TEMP 30.0f
+#define STARTING_TARGET_TEMP 20.0f
+#define MIN_TARGET_TEMP 0.0f
+#define TEMP_BUTTON_INCREMENT 0.5f
+#define TEMP_HYSTERESIS 2.0f
+#else
 #define MAX_TARGET_TEMP 10.0f
+#define STARTING_TARGET_TEMP 4.0f
 #define MIN_TARGET_TEMP 0.0f
 #define TEMP_BUTTON_INCREMENT 0.1f
-#define STARTING_TARGET_TEMP 4.0f
 #define TEMP_HYSTERESIS 2.0f
+#endif
+
 
 // System State
 typedef struct {
